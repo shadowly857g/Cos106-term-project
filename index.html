@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COS 106 | Student Portfolio & Academic Management</title>
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --primary-dark: #0284c7;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            text-align: center;
+            padding: 70px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .profile-container {
+            margin-bottom: 20px;
+        }
+
+        .profile-pic {
+            width: 130px !important;
+            height: 130px !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container & Sections */
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* About Me Layout */
+        .about-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .skills-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .skills-list li {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--primary);
+        }
+
+        td {
+            color: var(--text-muted);
+        }
+
+        /* Interactive Academic Planner */
+        .planner-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .planner-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .planner-input-group input {
+            flex: 1;
+            padding: 10px 14px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: var(--bg-dark);
+            font-weight: 600;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .task-item {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-item.completed span {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-complete {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* Contact Form & Validation */
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group textarea {
+            padding: 10px 14px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .success-banner {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">COS 106 Portfolio</div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#schedule">Schedule</a></li>
+            <li><a href="#planner">Planner</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="profile-container">
+            <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+        </div>
+        <h1>F. David - Student Portfolio</h1>
+        <p>Miva Open University, Abuja | COS 106 Introduction to Web Technologies</p>
+    </header>
+
+    <main class="container">
+        
+        <!-- 1. ABOUT ME PAGE/SECTION -->
+        <section id="about" style="margin-bottom: 50px;">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p><strong>Educational Background:</strong> Studying Computer Science at Miva Open University, Abuja.</p>
+                    <p><strong>Career Aspirations:</strong> Aspiring Full-Stack Software Engineer specializing in scalable web applications and Python automation.</p>
+                    <p><strong>Hobbies & Interests:</strong> Coding responsive interfaces, exploring cloud DevOps pipelines, and reading tech articles.</p>
+                </div>
+                <div>
+                    <ul class="skills-list">
+                        <li>⚡ HTML5 & Semantic Web</li>
+                        <li>🎨 Advanced CSS & Grid</li>
+                        <li>⚙️ JavaScript DOM & Events</li>
+                        <li>🐍 Python Automation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PROJECTS PAGE/SECTION -->
+        <section id="projects" style="margin-bottom: 50px;">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Python HTML Generator</h3>
+                    <p>Automated script that constructs fully styled, responsive HTML documents via server file handling.</p>
+                    <span class="badge">Python / Scripting</span>
+                </div>
+                <div class="card">
+                    <h3>Academic Task Manager</h3>
+                    <p>Interactive client-side task tracker implementing DOM manipulation and array event handling.</p>
+                    <span class="badge">JavaScript</span>
+                </div>
+                <div class="card">
+                    <h3>Cloud Portfolio</h3>
+                    <p>Responsive multi-section platform deployed live via GitHub and Netlify cloud platforms.</p>
+                    <span class="badge">DevOps</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ACADEMIC SCHEDULE (TABLE REQUIREMENT) -->
+        <section id="schedule" style="margin-bottom: 50px;">
+            <h2 class="section-title">Academic Schedule & Coursework</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Title</th>
+                        <th>Day</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>COS 106</td>
+                        <td>Introduction to Web Technologies</td>
+                        <td>Monday</td>
+                        <td>Active Lab</td>
+                    </tr>
+                    <tr>
+                        <td>COS 102</td>
+                        <td>Problem Solving & Programming</td>
+                        <td>Wednesday</td>
+                        <td>Completed</td>
+                    </tr>
+                    <tr>
+                        <td>GST 101</td>
+                        <td>Use of English & Communication</td>
+                        <td>Friday</td>
+                        <td>Enrolled</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 4. INTERACTIVE ACADEMIC PLANNER (JAVASCRIPT REQUIREMENT) -->
+        <section id="planner" style="margin-bottom: 50px;">
+            <h2 class="section-title">Academic Task Planner</h2>
+            <div class="planner-box">
+                <div class="planner-input-group">
+                    <input type="text" id="taskInput" placeholder="Enter a new study task (e.g., Read COS 106 lab manual)...">
+                    <button class="btn" onclick="addTask()">Add Task</button>
+                </div>
+                <ul id="taskList" class="task-list">
+                    <!-- Tasks injected via JS -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- 5. CONTACT FORM WITH JAVASCRIPT VALIDATION -->
+        <section id="contact">
+            <h2 class="section-title">Contact Form</h2>
+            <div id="successBanner" class="success-banner">Message validated successfully! Thank you for reaching out.</div>
+            <form id="contactForm" class="contact-form" onsubmit="validateForm(event)" novalidate>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your name">
+                    <span id="nameError" class="error-msg">Name cannot be empty.</span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address (@miva.edu.ng)</label>
+                    <input type="email" id="email" placeholder="f.david5099@miva.edu.ng">
+                    <span id="emailError" class="error-msg">Please enter a valid email address.</span>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number (Digits only)</label>
+                    <input type="tel" id="phone" placeholder="+2348146029993">
+                    <span id="phoneError" class="error-msg">Phone number must contain only digits.</span>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="4" placeholder="Type your message here..."></textarea>
+                    <span id="messageError" class="error-msg">Message cannot be empty.</span>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </section>
+
+        <!-- 6. MULTIMEDIA REQUIREMENT -->
+        <section style="margin-top: 50px; text-align: center;">
+            <h2 class="section-title">Project Overview Video</h2>
+            <video width="100%" max-width="500" controls style="border-radius: 12px; border: 1px solid var(--border);">
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                Your browser does not support HTML video.
+            </video>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Miva Open University, Abuja | COS 106 Student Term Project.</p>
+    </footer>
+
+    <script>
+        // Interactive Task Planner Logic (Arrays, DOM Manipulation, Event Handling)
+        let tasks = [
+            { text: "Complete COS 106 HTML/CSS design", completed: true },
+            { text: "Implement JavaScript task manager", completed: false }
+        ];
+
+        function renderTasks() {
+            const list = document.getElementById("taskList");
+            list.innerHTML = "";
+            tasks.forEach((task, index) => {
+                const li = document.createElement("li");
+                li.className = `task-item ${task.completed ? 'completed' : ''}`;
+                li.innerHTML = `
+                    <span>${task.text}</span>
+                    <div class="task-actions">
+                        <button class="btn-sm btn-complete" onclick="toggleTask(${index})">${task.completed ? 'Undo' : 'Done'}</button>
+                        <button class="btn-sm btn-delete" onclick="deleteTask(${index})">Delete</button>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function addTask() {
+            const input = document.getElementById("taskInput");
+            const text = input.value.trim();
+            if (text !== "") {
+                tasks.push({ text: text, completed: false });
+                input.value = "";
+                renderTasks();
+            }
+        }
+
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            renderTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        // Initial render
+        renderTasks();
+
+        // Form Validation Logic (No empty fields, valid email, digits-only phone)
+        function validateForm(event) {
+            event.preventDefault();
+            
+            let isValid = true;
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const message = document.getElementById("message").value.trim();
+
+            // Name check
+            if (name === "") {
+                document.getElementById("nameError").style.display = "block";
+                isValid = false;
+            } else {
+                document.getElementById("nameError").style.display = "none";
+            }
+
+            // Email check (@ symbol and dot)
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById("emailError").style.display = "block";
+                isValid = false;
+            } else {
+                document.getElementById("emailError").style.display = "none";
+            }
+
+            // Phone check (digits only, allowing optional plus prefix)
+            const phoneRegex = /^\+?[0-9]+$/;
+            if (!phoneRegex.test(phone) || phone.length < 10) {
+                document.getElementById("phoneError").style.display = "block";
+                isValid = false;
+            } else {
+                document.getElementById("phoneError").style.display = "none";
+            }
+
+            // Message check
+            if (message === "") {
+                document.getElementById("messageError").style.display = "block";
+                isValid = false;
+            } else {
+                document.getElementById("messageError").style.display = "none";
+            }
+
+            const banner = document.getElementById("successBanner");
+            if (isValid) {
+                banner.style.display = "block";
+                document.getElementById("contactForm").reset();
+            } else {
+                banner.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
